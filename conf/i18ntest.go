@@ -17,13 +17,11 @@ func main() {
 	}))
 
 	m.Get("/", func(self *macross.Context) error {
-		fmt.Println("Header>", self.Request.Header.String())
 		return self.String("current language is " + self.Language())
 	})
 
 	// Use in handler.
 	m.Get("/trans", func(self *macross.Context) error {
-		fmt.Println("Header>", self.Request.Header.String())
 		return self.String(fmt.Sprintf("hello %s", self.Tr("world")))
 	})
 

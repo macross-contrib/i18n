@@ -218,7 +218,6 @@ func I18n(options ...Options) macross.Handler {
 
 		// Set language properties.
 		locale := Localer{i18n.Locale{lang}}
-		fmt.Println("lang>", lang)
 		//ctx.Map(locale)
 		ctx.Localer = locale
 
