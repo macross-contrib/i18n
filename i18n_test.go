@@ -45,7 +45,7 @@ func Test_I18n(t *testing.T) {
 				So(recover(), ShouldNotBeNil)
 			}()
 
-			m := macross.New()
+			m := macross.Classic()
 			m.Use(I18n(Options{
 				Langs: []string{"en-US"},
 			}))
@@ -56,7 +56,7 @@ func Test_I18n(t *testing.T) {
 				So(recover(), ShouldNotBeNil)
 			}()
 
-			m := macross.New()
+			m := macross.Classic()
 			m.Use(I18n(Options{
 				Directory: "404",
 				Langs:     []string{"en-US"},
@@ -82,7 +82,7 @@ func Test_I18n(t *testing.T) {
 		})
 
 		Convey("Set by redirect of URL parameter", func() {
-			m := macross.New()
+			m := macross.Classic()
 			m.Use(I18n(Options{
 				Langs:    []string{"en-US"},
 				Names:    []string{"English"},
@@ -99,7 +99,7 @@ func Test_I18n(t *testing.T) {
 		})
 
 		Convey("Set by Accept-Language", func() {
-			m := macross.New()
+			m := macross.Classic()
 			m.Use(I18n(Options{
 				Langs: []string{"en-US", "zh-CN", "it-IT"},
 				Names: []string{"English", "简体中文", "Italiano"},
@@ -119,7 +119,7 @@ func Test_I18n(t *testing.T) {
 		})
 
 		Convey("Set to default language", func() {
-			m := macross.New()
+			m := macross.Classic()
 			m.Use(I18n(Options{
 				Langs: []string{"en-US", "zh-CN", "it-IT"},
 				Names: []string{"English", "简体中文", "Italiano"},
