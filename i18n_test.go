@@ -16,11 +16,11 @@ package i18n
 
 import (
 	"net/http"
-	"net/http/httptest"
+	//"net/http/httptest"
 	"testing"
 
+	"github.com/insionng/macross"
 	. "github.com/smartystreets/goconvey/convey"
-	"gopkg.in/macross.v1"
 )
 
 func Test_Version(t *testing.T) {
@@ -36,7 +36,7 @@ func Test_I18n(t *testing.T) {
 				So(recover(), ShouldNotBeNil)
 			}()
 
-			m := macross.New()
+			m := macross.Classic()
 			m.Use(I18n(Options{}))
 		})
 
@@ -65,18 +65,20 @@ func Test_I18n(t *testing.T) {
 		})
 
 		Convey("With correct options", func() {
-			m := macross.New()
+			m := macross.Classic()
 			m.Use(I18n(Options{
 				Files: map[string][]byte{"locale_en-US.ini": []byte("")},
 				Langs: []string{"en-US"},
 				Names: []string{"English"},
 			}))
-			m.Get("/", func() {})
+			m.Get("/", func(*macross.Context) error { return nil })
 
-			resp := httptest.NewRecorder()
-			req, err := http.NewRequest("GET", "/", nil)
+			//resp := httptest.NewRecorder()
+			//req, err := http.NewRequest("GET", "/", nil)
+			_, err := http.NewRequest("GET", "/", nil)
 			So(err, ShouldBeNil)
-			m.ServeHTTP(resp, req)
+			//m.ServeHTTP(resp, req)
+			go m.Listen(9000)
 		})
 
 		Convey("Set by redirect of URL parameter", func() {
@@ -86,13 +88,14 @@ func Test_I18n(t *testing.T) {
 				Names:    []string{"English"},
 				Redirect: true,
 			}))
-			m.Get("/", func() {})
+			m.Get("/", func(*macross.Context) error { return nil })
 
-			resp := httptest.NewRecorder()
+			//resp := httptest.NewRecorder()
 			req, err := http.NewRequest("GET", "/?lang=en-US", nil)
 			So(err, ShouldBeNil)
 			req.RequestURI = "/?lang=en-US"
-			m.ServeHTTP(resp, req)
+			//m.ServeHTTP(resp, req)
+			go m.Listen(9999)
 		})
 
 		Convey("Set by Accept-Language", func() {
@@ -101,15 +104,18 @@ func Test_I18n(t *testing.T) {
 				Langs: []string{"en-US", "zh-CN", "it-IT"},
 				Names: []string{"English", "简体中文", "Italiano"},
 			}))
-			m.Get("/", func(l Locale) {
-				So(l.Language(), ShouldEqual, "it-IT")
+			m.Get("/", func(self *macross.Context) error {
+				So(self.Localer.Language(), ShouldEqual, "it-IT")
+				return nil
 			})
 
-			resp := httptest.NewRecorder()
+			//resp := httptest.NewRecorder()
 			req, err := http.NewRequest("GET", "/", nil)
+			_, err = http.NewRequest("GET", "/", nil)
 			So(err, ShouldBeNil)
 			req.Header.Set("Accept-Language", "it")
-			m.ServeHTTP(resp, req)
+			//m.ServeHTTP(resp, req)
+			go m.Listen(9999)
 		})
 
 		Convey("Set to default language", func() {
@@ -118,15 +124,17 @@ func Test_I18n(t *testing.T) {
 				Langs: []string{"en-US", "zh-CN", "it-IT"},
 				Names: []string{"English", "简体中文", "Italiano"},
 			}))
-			m.Get("/", func(l Locale) {
-				So(l.Language(), ShouldEqual, "en-US")
+			m.Get("/", func(self *macross.Context) error {
+				So(self.Localer.Language(), ShouldEqual, "en-US")
+				return nil
 			})
 
-			resp := httptest.NewRecorder()
+			//resp := httptest.NewRecorder()
 			req, err := http.NewRequest("GET", "/", nil)
 			So(err, ShouldBeNil)
 			req.Header.Set("Accept-Language", "ru")
-			m.ServeHTTP(resp, req)
+			//m.ServeHTTP(resp, req)
+			go m.Listen(9999)
 		})
 	})
 }

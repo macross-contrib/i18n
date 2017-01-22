@@ -62,13 +62,13 @@ func initLocales(opt Options) language.Matcher {
 	return language.NewMatcher(tags)
 }
 
-// A Locale describles the information of localization.
-type Locale struct {
+// A Localer describles the information of localization.
+type Localer struct {
 	i18n.Locale
 }
 
 // Language returns language current locale represents.
-func (l Locale) Language() string {
+func (l Localer) Language() string {
 	return l.Lang
 }
 
@@ -217,9 +217,9 @@ func I18n(options ...Options) macross.Handler {
 		}
 
 		// Set language properties.
-		locale := Locale{i18n.Locale{lang}}
+		locale := Localer{i18n.Locale{lang}}
 		//ctx.Map(locale)
-		ctx.Locale = locale
+		ctx.Localer = locale
 
 		ctx.Set(opt.TmplName, locale)
 		ctx.Set("Tr", i18n.Tr)
