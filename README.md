@@ -25,12 +25,12 @@ func main() {
 	}))
 
 	m.Get("/", func(self *macross.Context) error {
-		return self.String("current language is " + self.Locale.Language())
+		return self.String("current language is " + self.Localer.Language())
 	})
 
 	// Use in handler.
 	m.Get("/trans", func(self *macross.Context) error {
-		return self.String(self.Locale.Tr("hello %s", "world"))
+		return self.String(self.Localer.Tr("hello %s", "world"))
 	})
 
 	m.Listen(9999)
