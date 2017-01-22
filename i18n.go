@@ -13,7 +13,7 @@
 // License for the specific language governing permissions and limitations
 // under the License.
 
-// Package i18n is a middleware that provides app Internationalization and Localization of Macaron.
+// Package i18n is a middleware that provides app Internationalization and Localization of Macross.
 package i18n
 
 import (

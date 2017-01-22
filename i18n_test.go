@@ -1,4 +1,4 @@
-// Copyright 2014 The Macaron Authors
+// Copyright 2017 The Macross Authors
 //
 // Licensed under the Apache License, Version 2.0 (the "License"): you may
 // not use this file except in compliance with the License. You may obtain
@@ -20,7 +20,7 @@ import (
 	"testing"
 
 	. "github.com/smartystreets/goconvey/convey"
-	"gopkg.in/macaron.v1"
+	"gopkg.in/macross.v1"
 )
 
 func Test_Version(t *testing.T) {
@@ -36,7 +36,7 @@ func Test_I18n(t *testing.T) {
 				So(recover(), ShouldNotBeNil)
 			}()
 
-			m := macaron.New()
+			m := macross.New()
 			m.Use(I18n(Options{}))
 		})
 
@@ -45,7 +45,7 @@ func Test_I18n(t *testing.T) {
 				So(recover(), ShouldNotBeNil)
 			}()
 
-			m := macaron.New()
+			m := macross.New()
 			m.Use(I18n(Options{
 				Langs: []string{"en-US"},
 			}))
@@ -56,7 +56,7 @@ func Test_I18n(t *testing.T) {
 				So(recover(), ShouldNotBeNil)
 			}()
 
-			m := macaron.New()
+			m := macross.New()
 			m.Use(I18n(Options{
 				Directory: "404",
 				Langs:     []string{"en-US"},
@@ -65,7 +65,7 @@ func Test_I18n(t *testing.T) {
 		})
 
 		Convey("With correct options", func() {
-			m := macaron.New()
+			m := macross.New()
 			m.Use(I18n(Options{
 				Files: map[string][]byte{"locale_en-US.ini": []byte("")},
 				Langs: []string{"en-US"},
@@ -80,7 +80,7 @@ func Test_I18n(t *testing.T) {
 		})
 
 		Convey("Set by redirect of URL parameter", func() {
-			m := macaron.New()
+			m := macross.New()
 			m.Use(I18n(Options{
 				Langs:    []string{"en-US"},
 				Names:    []string{"English"},
@@ -96,7 +96,7 @@ func Test_I18n(t *testing.T) {
 		})
 
 		Convey("Set by Accept-Language", func() {
-			m := macaron.New()
+			m := macross.New()
 			m.Use(I18n(Options{
 				Langs: []string{"en-US", "zh-CN", "it-IT"},
 				Names: []string{"English", "简体中文", "Italiano"},
@@ -113,7 +113,7 @@ func Test_I18n(t *testing.T) {
 		})
 
 		Convey("Set to default language", func() {
-			m := macaron.New()
+			m := macross.New()
 			m.Use(I18n(Options{
 				Langs: []string{"en-US", "zh-CN", "it-IT"},
 				Names: []string{"English", "简体中文", "Italiano"},
