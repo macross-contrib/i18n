@@ -203,6 +203,7 @@ func I18n(options ...Options) macross.Handler {
 			cookie.SetValue(curLang.Lang)
 			cookie.SetExpire(time.Now().Add(365 * 24 * time.Hour))
 			cookie.SetPath("/" + strings.TrimPrefix(opt.SubURL, "/"))
+			ctx.SetCookie(cookie)
 		}
 
 		restLangs := make([]LangType, 0, i18n.Count()-1)
